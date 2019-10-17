@@ -24,6 +24,7 @@ const db = [
 // LIST of companies to populate the search 
 const getSymbols = async () => {
   const res = await axios.get(`https://financialmodelingprep.com/api/v3/company/stock/list`)
+  // add to database and if exist continue
   console.log(res.data)
 }
 
