@@ -52,12 +52,24 @@ const findCompany = async (sym) => {
 // findCompany('AAPL')
 
 const getCurrentPrice = async () => {
+  // get the symbol
   let company = await findCompany('AAPL')
-  console.log(company.symbol)
+  // pass it to the api
   const res = await axios.get(`https://financialmodelingprep.com/api/v3/stock/real-time-price/${company.symbol}`)
-  // const res = await axios.get(`https://financialmodelingprep.com/api/v3/stock/real-time-price/AAPL`)
   console.log(res.data)
+  // send data back to the client GET
 }
 
 
-getCurrentPrice()
+// getCurrentPrice()
+
+const getHistoricalPrice = async () => {
+  // get the symbol
+  let company = await findCompany('AAPL')
+  // pass it to the api
+  const res = await axios.get(`https://financialmodelingprep.com/api/v3/historical-price-full/${company.symbol}?serietype=line`)
+  console.log(res.data)
+  // send data back to the client GET
+}
+
+getHistoricalPrice()
