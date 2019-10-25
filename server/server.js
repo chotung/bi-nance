@@ -1,28 +1,13 @@
 const axios = require('axios')
 const express = require('express')
+const bodyParser = require('body-parser')
 
 const app = express()
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
-// FAKE DATABASE
-
-// const db = [
-//   {
-//     symbol: 'AAPL',
-//     name: 'APPLE',
-//     price: 3.33
-//   },
-//   {
-//     symbol: 'AMZ',
-//     name: 'AMAZON',
-//     price: 100.69
-//   },
-//   {
-//     symbol: 'SBUX',
-//     name: 'STARBUCKS',
-//     price: 100.99
-//   }
-// ]
+const port = process.env.PORT || 4000
 
 // Routes REFACTOR LATER
 
@@ -52,8 +37,6 @@ app.get('/symbols/:name/historical/:date', async (req, res) => {
 // LIST of companies to populate the search 
 const getSymbols = async () => {
   const res = await axios.get(`https://financialmodelingprep.com/api/v3/company/stock/list`)
-  // add to database and if exist continue
-  // console.log(res.data)
   return res.data
 }
 
@@ -64,17 +47,12 @@ const getCurrentPrice = async (company) => {
 }
 
 const getHistoricalPrice = async (company) => {
-  console.log("company", company,);
-  // const date = 30
-  // let company = await findCompany('AAPL')
-  // const res = await axios.get(`https://financialmodelingprep.com/api/v3/historical-price-full/${company.symbol}?serietype=line`)
   const res = await axios.get(`https://financialmodelingprep.com/api/v3/historical-price-full/${company.name}?timeseries=${company.date}`)
   return res.data
-  // send data back to the client GET
 }
 
 app.get('*', (req, res) => res.status(200).send({
   message: "Welcome to Bi-ance"
 }))
 
-app.listen(3000, console.log(`Server is running on port 3000`))
+app.listen(port, console.log(`Server is running on port ${port}`))
